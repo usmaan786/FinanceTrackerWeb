@@ -1,0 +1,40 @@
+﻿@page
+@model FinanceTrackerWeb.Pages.TransactionsModel
+@{
+}
+
+<div class="jumbotron p-3">
+    <div class="d-flex align-items-center">
+        <h1 class="display-4 flex-grow-1">
+            Transaction Summary
+        </h1>
+    </div>
+</div>
+
+
+<div class="d-flex bg-success text-white">
+    <div class="p-2" style="flex:0 0 10%">
+        Date
+    </div>
+    <div class="p-2" style="flex:0 0 10%">
+        Transaction
+    </div>
+    <div class="p-2" style="flex:0 0 10%">
+        Amount
+    </div>
+</div>
+
+@foreach (var item in Model.Spendings)
+{
+    <div class="d-flex border-left border-right border-bottom border-primary">
+        <div class="p-2" style="flex:0 0 10%">
+            @item.TransactionDate
+        </div>
+        <div class="p-2" style="flex:0 0 10%">
+            @item.Item
+        </div>
+        <div class="p-2" style="flex:1 0 auto">
+            @item.Spent
+        </div>
+    </div>
+}
