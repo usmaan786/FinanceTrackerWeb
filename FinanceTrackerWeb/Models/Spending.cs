@@ -1,4 +1,5 @@
 ﻿using FinanceTrackerWeb.Contracts;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinanceTrackerWeb.Models
 {
@@ -7,6 +8,8 @@ namespace FinanceTrackerWeb.Models
         public int Id { get; set; }
         public string Item { get; set; }
         public double Spent { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime TransactionDate { get; set; }
 
         public string UserId { get; set; }

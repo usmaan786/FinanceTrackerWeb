@@ -1,12 +1,63 @@
 ﻿@page
-@model IndexModel
+@model FinanceTrackerWeb.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    
-    <a class="btn btn-primary btn-lg" asp-area="Identity" asp-page="/Account/Register">Register</a>
-
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Your Finance Tracker</h1>
+    <p class="lead">Track your monthly spending with ease.</p>
 </div>
+
+@if (User.Identity.IsAuthenticated && Model.MonthlySpendings != null && Model.MonthlySpendings.Any())
+{
+    <h2>Monthly Spending Overview</h2>
+    <canvas id="monthlySpendingsChart" width="400" height="200"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var ctx = document.getElementById('monthlySpendingsChart').getContext('2d');
+            var monthlySpendingsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.MonthlySpendings.Keys)),
+                    datasets: [{
+                        label: 'Total Spendings',
+                        data: @Html.Raw(Json.Serialize(Model.MonthlySpendings.Values)),
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount Spent ($)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Month'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
+else
+{
+    <p class="text-muted">Please log in to see your monthly spending data.</p>
+}

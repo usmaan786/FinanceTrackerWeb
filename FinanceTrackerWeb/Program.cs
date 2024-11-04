@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using FinanceTrackerWeb.Models;
 using FinanceTrackerWeb.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using FinanceTrackerWeb.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 
 builder.Services.AddDbContext<FinanceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FinanceContext")));
@@ -17,7 +19,7 @@ builder.Services.AddDbContext<FinanceContext>(options =>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<FinanceContext>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-
+builder.Services.AddScoped<ISpendingService, SpendingService>();
 
 var app = builder.Build();
 
