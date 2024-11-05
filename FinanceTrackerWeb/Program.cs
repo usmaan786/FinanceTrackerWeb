@@ -5,6 +5,7 @@ using FinanceTrackerWeb.Models;
 using FinanceTrackerWeb.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using FinanceTrackerWeb.Contracts;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,12 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddScoped<ISpendingService, SpendingService>();
+builder.Services.Configure<PlaidSettings>(builder.Configuration.GetSection("PlaidSettings"));
+builder.Services.AddHttpClient<PlaidService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7190/");
+});
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -39,6 +46,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapRazorPages();
 
