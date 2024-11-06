@@ -46,7 +46,8 @@ namespace FinanceTrackerWeb.Pages
             }
 
             var spendings = _context.Spendings
-                .Where(s => s.UserId == user.Id);
+                .Where(s => s.UserId == user.Id)
+                .OrderByDescending(s => s.TransactionDate);
 
             Spendings = await spendings.ToListAsync();
 

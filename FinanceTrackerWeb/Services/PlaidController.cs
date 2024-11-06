@@ -49,25 +49,9 @@ namespace FinanceTrackerWeb.Services
         [HttpPost("sync_transactions")]
         public async Task<IActionResult> SyncTransactions([FromBody] SyncTransactionsRequest request)
         {
-            _logger.LogInformation($"Received Rqeuest: {JsonConvert.SerializeObject(request)}");
             try
             {
                 var transactions = await _plaidService.GetTransactionsAsync(request.AccessToken, request.StartDate, request.EndDate);
-
-                /*foreach (var transaction in transactions)
-                {
-                    var spending = new Spending
-                    {
-                        Item = transaction.Name,
-                        Spent = transaction.Amount,
-                        TransactionDate = DateTime.Parse(transaction.Date),
-                        UserId = _userManager.GetUserId(User)
-                    };
-                    _context.Spendings.Add(spending);
-                }
-
-                await _context.SaveChangesAsync();
-                return Ok();*/
 
                 var spendings = transactions.Select(transaction => new Spending
                 {
