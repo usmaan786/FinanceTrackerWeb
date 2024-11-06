@@ -9,14 +9,16 @@
     <p class="lead">Track your monthly spending with ease.</p>
 </div>
 
-@if (User.Identity.IsAuthenticated && Model.MonthlySpendings != null && Model.MonthlySpendings.Any())
+@if (User.Identity.IsAuthenticated)
 {
-    <h2>Monthly Spending Overview</h2>
-    <canvas id="monthlySpendingsChart" width="400" height="200"></canvas>
+    if (Model.MonthlySpendings != null && Model.MonthlySpendings.Any())
+    {
+        <h2>Monthly Spending Overview</h2>
+        <canvas id="monthlySpendingsChart" width="400" height="200"></canvas>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
             var ctx = document.getElementById('monthlySpendingsChart').getContext('2d');
             var monthlySpendingsChart = new Chart(ctx, {
                 type: 'bar',
@@ -55,7 +57,12 @@
                 }
             });
         });
-    </script>
+        </script>
+    }
+    else
+    {
+        <p class="text-muted"><a asp-page="/Transactions">Connect your bank account</a> for more details</p>
+    }
 }
 else
 {
