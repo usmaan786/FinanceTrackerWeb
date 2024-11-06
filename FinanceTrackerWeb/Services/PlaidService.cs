@@ -105,13 +105,6 @@ namespace FinanceTrackerWeb.Services
 
     }
 
-    /*public class Transaction
-    {
-        public string Name { get; set; }
-        public double Amount { get; set; }
-        public DateTime Date { get; set; }
-    }*/
-
     public class Transaction
     {
         [JsonProperty("account_id")]

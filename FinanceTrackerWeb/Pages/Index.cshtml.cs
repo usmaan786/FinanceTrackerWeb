@@ -14,6 +14,8 @@ namespace FinanceTrackerWeb.Pages
         private readonly UserManager<User> _userManager;
 
         public Dictionary<string, double> MonthlySpendings { get; set; }
+        public double TotalSpendings { get; set; }
+
 
         public IndexModel(ILogger<IndexModel> logger, UserManager<User> userManager,ISpendingService spendingService)
         {
@@ -27,6 +29,7 @@ namespace FinanceTrackerWeb.Pages
             if (User.Identity.IsAuthenticated)
             {
                 MonthlySpendings = await _spendingService.GetMonthlySpendingsAsync(User);
+                TotalSpendings = await _spendingService.GetTotalSpendingsAsync(User);
             }
 
             return Page();

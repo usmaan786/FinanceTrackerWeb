@@ -11,6 +11,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
+    <span>Total Spending: £@Model.TotalSpendings.ToString("F2")</span>
     if (Model.MonthlySpendings != null && Model.MonthlySpendings.Any())
     {
         <h2>Monthly Spending Overview</h2>

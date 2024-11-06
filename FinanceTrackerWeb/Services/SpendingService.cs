@@ -42,5 +42,24 @@ namespace FinanceTrackerWeb.Services
                 m => $"{m.Year}-{m.Month:D2}", // Format as "yyyy-MM"
                 m => m.TotalSpent);
         }
+
+        public async Task<double> GetTotalSpendingsAsync(ClaimsPrincipal user)
+        {
+            var currentUser_Id = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var totalSpendings = await _context.Spendings
+                .Where(s => s.UserId == currentUser_Id)
+                .SumAsync(s => s.Spent);
+
+            var dbUser = await _context.Users.FindAsync(currentUser_Id);
+            if (dbUser != null)
+            {
+                dbUser.CurrentSpending = totalSpendings;
+
+                await _context.SaveChangesAsync();
+            }
+
+            return totalSpendings;
+        }
     }
 }

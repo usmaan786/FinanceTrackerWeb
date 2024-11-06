@@ -30,7 +30,7 @@ namespace FinanceTrackerWeb.Pages
 
             if(user == null)
             {
-                return Challenge(); //redirect to login
+                return Challenge(); 
             }
             Console.WriteLine($"Base Address: {_httpClient.BaseAddress}");
 
