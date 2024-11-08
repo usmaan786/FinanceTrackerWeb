@@ -15,6 +15,9 @@ namespace FinanceTrackerWeb.Pages
 
         public Dictionary<string, double> MonthlySpendings { get; set; }
         public double TotalSpendings { get; set; }
+        public double Budget { get; set; }
+        public double BudgetPercentage { get; set; }
+        public double OverBudget { get; set; }
 
 
         public IndexModel(ILogger<IndexModel> logger, UserManager<User> userManager,ISpendingService spendingService)
@@ -30,6 +33,10 @@ namespace FinanceTrackerWeb.Pages
             {
                 MonthlySpendings = await _spendingService.GetMonthlySpendingsAsync(User);
                 TotalSpendings = await _spendingService.GetTotalSpendingsAsync(User);
+                Budget = await _spendingService.GetBudgetAsync(User);
+
+                BudgetPercentage = (TotalSpendings/ Budget)*100 ;
+                OverBudget = TotalSpendings - Budget;
             }
 
             return Page();

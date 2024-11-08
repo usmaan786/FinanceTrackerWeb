@@ -50,6 +50,16 @@
             Transaction Summary
         </h1>
     </div>
+
+    <form method="get">
+        <label class="control-label" asp-for="SortField">
+            Sort by:
+        </label>
+        <select class="p-2" asp-for="SortField" onchange="this.form.submit();">
+            <option value="Date" >Date</option>
+            <option value="Amount">Amount</option>
+        </select>
+    </form>
 </div>
 
 

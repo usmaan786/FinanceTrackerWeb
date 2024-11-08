@@ -24,15 +24,12 @@ namespace FinanceTrackerWeb.Pages
 
         public string LinkToken { get; set; }
         public List<Spending> Spendings { get; set; }
-        public async Task<IActionResult> OnGetAsync()
+
+        [BindProperty(SupportsGet = true)]
+        public string SortField { get; set; } = "Date";
+        public async Task OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-
-            if(user == null)
-            {
-                return Challenge(); 
-            }
-            Console.WriteLine($"Base Address: {_httpClient.BaseAddress}");
 
             var response = await _httpClient.GetAsync("https://localhost:7190/api/plaid/create_link_token");
             if (response.IsSuccessStatusCode)
@@ -46,12 +43,19 @@ namespace FinanceTrackerWeb.Pages
             }
 
             var spendings = _context.Spendings
-                .Where(s => s.UserId == user.Id)
-                .OrderByDescending(s => s.TransactionDate);
+                .Where(s => s.UserId == user.Id);
+
+            switch(SortField)
+            {
+                case "Date":
+                    spendings = spendings.OrderByDescending(s => s.TransactionDate);
+                    break;
+                case "Amount":
+                    spendings = spendings.OrderByDescending(s => s.Spent);
+                    break;
+            }
 
             Spendings = await spendings.ToListAsync();
-
-            return Page();
         }
     }
 }

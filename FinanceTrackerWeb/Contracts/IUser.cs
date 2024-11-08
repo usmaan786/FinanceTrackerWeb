@@ -4,7 +4,7 @@
     {
         int Id { get; }
         string Name { get; }
-        double? CurrentSpending { get; }
-        double? Budget { get; }
+        double CurrentSpending { get; }
+        double Budget { get; }
     }
 }

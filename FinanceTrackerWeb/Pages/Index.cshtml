@@ -11,7 +11,28 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <span>Total Spending: £@Model.TotalSpendings.ToString("F2")</span>
+    <p>Total Spending: £@Model.TotalSpendings.ToString("F2")</p>
+
+    <p>Current Budget: <a asp-page="/Budget">£@Model.Budget</a></p>
+    
+    @if (Model.TotalSpendings > Model.Budget)
+    {
+        <div class="alert alert-danger" role="alert">
+            You are over budget by £@Model.OverBudget.ToString("F2")
+        </div>
+    }
+    else
+    {
+        <div class="progress my-4" style="height: 30px;">
+            <div class="progress-bar bg-info" role="progressbar" style="width: @Model.BudgetPercentage%;" aria-valuenow="@Model.BudgetPercentage" aria-valuemin="0" aria-valuemax="100">
+                £@Model.TotalSpendings.ToString("F2") / £@Model.Budget.ToString("F2")
+            </div>
+        </div>
+
+    }
+
+
+
     if (Model.MonthlySpendings != null && Model.MonthlySpendings.Any())
     {
         <h2>Monthly Spending Overview</h2>
@@ -39,7 +60,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Amount Spent ($)'
+                                text: 'Amount Spent (£)'
                             }
                         },
                         x: {

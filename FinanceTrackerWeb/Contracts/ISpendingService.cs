@@ -6,5 +6,6 @@ namespace FinanceTrackerWeb.Contracts
     {
         Task<Dictionary<string, double>> GetMonthlySpendingsAsync(ClaimsPrincipal user);
         Task<double> GetTotalSpendingsAsync(ClaimsPrincipal user);
+        Task<double> GetBudgetAsync(ClaimsPrincipal user);
     }
 }

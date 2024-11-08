@@ -61,5 +61,18 @@ namespace FinanceTrackerWeb.Services
 
             return totalSpendings;
         }
+
+        public async Task<double> GetBudgetAsync(ClaimsPrincipal user)
+        {
+            var currentUser_Id = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var budget = await _context.Users
+                .Where(s => s.Id == currentUser_Id)
+                .Select(s => s.Budget)
+                .FirstOrDefaultAsync();
+               
+            return budget;
+                
+        }
     }
 }
