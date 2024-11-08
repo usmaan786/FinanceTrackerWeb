@@ -51,7 +51,12 @@
         </h1>
     </div>
 
-    <form method="get">
+    <form class="form-group">
+        <label asp-for="SearchString" class="control-label">
+            Item:
+        </label>
+        <input class="p-2" type="text" asp-for="SearchString" />
+        <input type="submit" value="Search" class="btn btn-primary btn-sm"/>
         <label class="control-label" asp-for="SortField">
             Sort by:
         </label>

@@ -27,6 +27,9 @@ namespace FinanceTrackerWeb.Pages
 
         [BindProperty(SupportsGet = true)]
         public string SortField { get; set; } = "Date";
+
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
         public async Task OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -44,6 +47,11 @@ namespace FinanceTrackerWeb.Pages
 
             var spendings = _context.Spendings
                 .Where(s => s.UserId == user.Id);
+
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                spendings = spendings.Where(s => s.Item.Contains(SearchString)); 
+            }
 
             switch(SortField)
             {
